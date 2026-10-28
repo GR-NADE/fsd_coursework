@@ -1,0 +1,20 @@
+# PUT http://localhost:3000/lessons/6ad38095ab78aab9ab42aa72
+# Content-Type: application/json
+
+# { "availability": 15 }
+
+GET http://localhost:3000/lessons
+
+# POST http://localhost:3000/orders
+# Content-Type: application/json
+
+# {
+#     "name": "Test user",
+#     "phone": "555666",
+#     "lessons": [
+#         {
+#             "lessonId": "6ad38095ab78aab9ab42aa72",
+#             "quantity": 3
+#         }
+#     ]
+# }
