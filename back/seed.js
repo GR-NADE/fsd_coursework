@@ -6,7 +6,7 @@ const teachers = [
 ];
 
 const weekPrices = [
-    {week: 1, price: 120},
+    {week: 1, price: 115},
     {week: 2, price: 125},
     {week: 3, price: 140},
     {week: 4, price: 160},

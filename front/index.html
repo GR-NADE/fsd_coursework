@@ -8,7 +8,24 @@
 </head>
 <body>
     <div id="app">
-        <h2>{{ title }}</h2>
+        <header class="navbar">
+            <h2>Lesson App</h2>
+        </header>
+
+        <main>
+            <p v-if="loading">Loading Lessons...</p>
+            <p v-else-if="error">{{ error }}</p>
+
+            <div v-else class="lesson-grid">
+                <div class="lesson-card" v-for="lesson in lessons" :key="lesson._id">
+                    <h2>{{ lesson.lesson }}</h2>
+                    <p class="subject">{{ lesson.subject }}</p>
+                    <p>Teacher: {{ lesson.teacher }}</p>
+                    <p>Price: Rs {{ lesson.price }}</p>
+                    <p>Availability: {{ lesson.subject }}</p>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.js"></script>

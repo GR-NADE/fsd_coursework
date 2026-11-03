@@ -1,4 +1,54 @@
-body
-{
-    margin: 0;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f6f8;
+  color: #222;
+}
+
+.navbar {
+  background: #2c3e50;
+  color: white;
+  padding: 16px 24px;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+main {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+}
+
+.lesson-card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-card h2 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.lesson-card p {
+  margin: 6px 0;
+}
+
+.subject {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #c0392b;
 }
