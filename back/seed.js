@@ -11,6 +11,7 @@ const weekPrices = [
     {week: 3, price: 140},
     {week: 4, price: 160},
     {week: 5, price: 180},
+    {week: 6, price: 200},
 ];
 
 const lessons = teachers.flatMap(({ name, subject, code }) =>
@@ -18,7 +19,7 @@ const lessons = teachers.flatMap(({ name, subject, code }) =>
         subject,
         lesson: `${code} Week ${week} Lab`,
         price,
-        availability: 15,
+        availability: 5,
         teacher: name,
     }))
 );

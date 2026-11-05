@@ -9,22 +9,45 @@
 <body>
     <div id="app">
         <header class="navbar">
-            <h2>Lesson App</h2>
+            <h2>Study Nest</h2>
         </header>
 
         <main>
             <p v-if="loading">Loading Lessons...</p>
             <p v-else-if="error">{{ error }}</p>
 
-            <div v-else class="lesson-grid">
-                <div class="lesson-card" v-for="lesson in lessons" :key="lesson._id">
-                    <h2>{{ lesson.lesson }}</h2>
-                    <p class="subject">{{ lesson.subject }}</p>
-                    <p>Teacher: {{ lesson.teacher }}</p>
-                    <p>Price: Rs {{ lesson.price }}</p>
-                    <p>Availability: {{ lesson.subject }}</p>
+            <template v-else>
+                <div class="toolbar">
+                    <label>
+                        Sort by
+                        <select v-model="sortBy">
+                            <option value="subject">Subject</option>
+                            <option value="lesson">Lesson</option>
+                            <option value="price">Price</option>
+                            <option value="availability">Availability</option>
+                        </select>
+                    </label>
+                    <label>
+                        Order
+                        <select v-model="sortOrder">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </label>
                 </div>
-            </div>
+
+                <div class="lesson-grid">
+                    <div class="lesson-card" v-for="lesson in sortedLessons" :key="lesson._id">
+                        <span class="subject-tag">{{ lesson.subject }}</span>
+                        <h2>{{ lesson.lesson }}</h2>
+                        <p class="teacher">{{ lesson.teacher }}</p>
+                        <div class="card-footer">
+                            <span class="price">Rs {{ lesson.price }}</span>
+                            <span class="availability">{{ lesson.availability }} spaces left</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </main>
     </div>
 

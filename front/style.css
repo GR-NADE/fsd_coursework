@@ -1,54 +1,115 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
-  background: #f5f6f8;
-  color: #222;
+  background: #f4f6fb;
+  color: #1f2937;
 }
 
 .navbar {
-  background: #2c3e50;
+  background: #1e3a8a;
   color: white;
-  padding: 16px 24px;
+  padding: 16px 32px;
 }
 
 .navbar h1 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 main {
   max-width: 1000px;
-  margin: 24px auto;
-  padding: 0 16px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.message {
+  text-align: center;
+  color: #6b7280;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.toolbar {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.toolbar select {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.9rem;
 }
 
 .lesson-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .lesson-card {
   background: white;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subject-tag {
+  align-self: flex-start;
+  background: #e0e7ff;
+  color: #3730a3;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
 .lesson-card h2 {
-  margin: 0 0 4px;
-  font-size: 1.1rem;
+  margin: 4px 0 0;
+  font-size: 1.15rem;
 }
 
-.lesson-card p {
-  margin: 6px 0;
-}
-
-.subject {
-  color: #666;
+.teacher {
+  margin: 0;
+  color: #6b7280;
   font-size: 0.9rem;
 }
 
-.error {
-  color: #c0392b;
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.availability {
+  font-size: 0.85rem;
+  color: #6b7280;
 }

@@ -6,7 +6,30 @@ const app = Vue.createApp({
             lessons: [],
             loading: true,
             error: "",
+            sortBy: "subject",
+            sortOrder: "asc",
         };
+    },
+
+    computed: {
+        sortedLessons() {
+            const sorted = [...this.lessons].sort((a, b) => {
+                const x = a[this.sortBy];
+                const y = b[this.sortBy];
+
+                if (typeof x === "number")
+                {
+                    return x - y;
+                }
+                return x.localeCompare(y);
+            });
+
+            if (this.sortOrder === "desc")
+            {
+                sorted.reverse();
+            }
+            return sorted;
+        },
     },
 
     async mounted() {
