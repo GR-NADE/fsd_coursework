@@ -5,45 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <div id="app">
         <header class="navbar">
             <h2>Study Nest</h2>
+
+            <span class="cart-wrapper" :title="cartCount === 0 ? 'You have not added any items to your cart' : 'View Cart'">
+                <button class="cart-button" :disabled="cartCount === 0" @click="showCart = true">
+                    <i class="bi bi-cart3">
+                        <span class="cart-count">{{ cartCount }}</span>
+                    </i>
+                </button>
+            </span>
         </header>
 
         <main>
-            <p v-if="loading">Loading Lessons...</p>
-            <p v-else-if="error">{{ error }}</p>
+            <p v-if="loading" class="message">Loading Lessons...</p>
+            <p v-else-if="error" class="message error">{{ error }}</p>
 
             <template v-else>
-                <div class="toolbar">
-                    <label>
-                        Sort by
-                        <select v-model="sortBy">
-                            <option value="subject">Subject</option>
-                            <option value="lesson">Lesson</option>
-                            <option value="price">Price</option>
-                            <option value="availability">Availability</option>
-                        </select>
-                    </label>
-                    <label>
-                        Order
-                        <select v-model="sortOrder">
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
-                        </select>
-                    </label>
+                <div v-if="!showCart">
+                    <div class="toolbar">
+                        <label>
+                            Sort by
+                            <select v-model="sortBy">
+                                <option value="subject">Subject</option>
+                                <option value="lesson">Lesson</option>
+                                <option value="price">Price</option>
+                                <option value="availability">Availability</option>
+                            </select>
+                        </label>
+                        <label>
+                            Order
+                            <select v-model="sortOrder">
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="lesson-grid">
+                        <div class="lesson-card" v-for="lesson in sortedLessons" :key="lesson._id">
+                            <span class="subject-tag">{{ lesson.subject }}</span>
+                            <h2>{{ lesson.lesson }}</h2>
+                            <p class="teacher">{{ lesson.teacher }}</p>
+                            <div class="card-footer">
+                                <span class="price">Rs {{ lesson.price }}</span>
+                                <span class="availability">{{ lesson.availability }} spaces left</span>
+                            </div>
+                            <button class="add-button" :disabled="lesson.availability === 0" @click="addToCart(lesson)">
+                                {{ lesson.availability === 0 ? "Sold out" : "Add to cart" }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="lesson-grid">
-                    <div class="lesson-card" v-for="lesson in sortedLessons" :key="lesson._id">
-                        <span class="subject-tag">{{ lesson.subject }}</span>
-                        <h2>{{ lesson.lesson }}</h2>
-                        <p class="teacher">{{ lesson.teacher }}</p>
-                        <div class="card-footer">
-                            <span class="price">Rs {{ lesson.price }}</span>
-                            <span class="availability">{{ lesson.availability }} spaces left</span>
+                <div v-else>
+                    <button class="back-button" @click="showCart = false">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </button>
+
+                    <h2>Your cart</h2>
+                    <p v-if="cartLessons.length === 0" class="message">Your cart is empty.</p>
+
+                    <div class="cart-item" v-for="lesson in cartLessons" :key="lesson._id">
+                        <div class="cart-info">
+                            <strong>{{ lesson.lesson }} x{{ quantityOf(lesson) }}</strong>
+                            <span class="teacher">{{ lesson.subject }}</span>
+                        </div>
+
+                        <span class="price">Rs {{ lesson.price * quantityOf(lesson) }}</span>
+
+                        <div class="cart-actions">
+                            <button class="icon-button" title="Remove one" @click="removeOne(lesson)">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                            <button class="icon-button danger" title="Remove all" @click="removeAll(lesson)">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

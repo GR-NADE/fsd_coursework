@@ -8,6 +8,8 @@ const app = Vue.createApp({
             error: "",
             sortBy: "subject",
             sortOrder: "asc",
+            cart: [],
+            showCart: false,
         };
     },
 
@@ -29,6 +31,14 @@ const app = Vue.createApp({
                 sorted.reverse();
             }
             return sorted;
+        },
+
+        cartCount() {
+            return this.cart.length;
+        },
+
+        cartLessons() {
+            return this.lessons.filter((lesson) => this.cart.includes(lesson._id));
         },
     },
 
@@ -52,6 +62,29 @@ const app = Vue.createApp({
             finally {
                 this.loading = false;
             }
+        },
+
+        addToCart(lesson) {
+            if (lesson.availability > 0)
+            {
+                lesson.availability--;
+                this.cart.push(lesson._id);
+            }
+        },
+
+        quantityOf(lesson) {
+            return this.cart.filter((id) => id === lesson._id).length;
+        },
+
+        removeOne(lesson) {
+            const position = this.cart.indexOf(lesson._id);
+            this.cart.splice(position, 1);
+            lesson.availability++;
+        },
+
+        removeAll(lesson) {
+            lesson.availability += this.quantityOf(lesson);
+            this.cart = this.cart.filter((id) => id !== lesson._id);
         },
     },
 });
