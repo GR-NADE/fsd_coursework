@@ -10,6 +10,11 @@ const app = Vue.createApp({
             sortOrder: "asc",
             cart: [],
             showCart: false,
+            name: "",
+            phone: "",
+            orderPlaced: false,
+            submitting: false,
+            checkoutError: "",
         };
     },
 
@@ -39,6 +44,12 @@ const app = Vue.createApp({
 
         cartLessons() {
             return this.lessons.filter((lesson) => this.cart.includes(lesson._id));
+        },
+
+        canCheckout() {
+            const nameOk = /^[A-Za-z ]+$/.test(this.name) && this.name.trim() !== "";
+            const phoneOk = /^[0-9]+$/.test(this.phone);
+            return nameOk && phoneOk;
         },
     },
 
@@ -85,6 +96,62 @@ const app = Vue.createApp({
         removeAll(lesson) {
             lesson.availability += this.quantityOf(lesson);
             this.cart = this.cart.filter((id) => id !== lesson._id);
+        },
+
+        goBack() {
+            this.showCart = false;
+            this.orderPlaced = false;
+        },
+
+        async checkout() {
+            this.submitting = true;
+            this.checkoutError = "";
+
+            try {
+                const order = {
+                    name: this.name,
+                    phone: this.phone,
+                    lessons: this.cartLessons.map((lesson) => ({
+                        lessonId: lesson._id,
+                        quantity: this.quantityOf(lesson),
+                    })),
+                };
+
+                const orderResponse = await fetch(`${API_URL}/orders`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(order),
+                });
+
+                if (!orderResponse.ok)
+                {
+                    throw new Error("Order failed");
+                }
+
+                for (const lesson of this.cartLessons) {
+                    const updateResponse = await fetch(`${API_URL}/lessons/${lesson._id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ availability: lesson.availability }),
+                    });
+
+                    if (!updateResponse.ok)
+                    {
+                        throw new Error("Update failed");
+                    }
+                }
+
+                this.cart = [];
+                this.name = "";
+                this.phone = "";
+                this.orderPlaced = true;
+            }
+            catch (err) {
+                this.checkoutError = "Could not place your order. Please try again.";
+            }
+            finally {
+                this.submitting = false;
+            }
         },
     },
 });

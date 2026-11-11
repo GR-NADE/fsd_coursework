@@ -63,28 +63,46 @@
                 </div>
 
                 <div v-else>
-                    <button class="back-button" @click="showCart = false">
-                        <i class="bi bi-arrow-left"></i> Back
+                    <button class="back-button" @click="goBack">
+                        <i class="bi bi-arrow-left"></i> Back to lessons
                     </button>
 
-                    <h2>Your cart</h2>
-                    <p v-if="cartLessons.length === 0" class="message">Your cart is empty.</p>
+                    <p v-if="orderPlaced" class="confirmation">
+                        Your order has been placed. Thank you!
+                    </p>
 
-                    <div class="cart-item" v-for="lesson in cartLessons" :key="lesson._id">
-                        <div class="cart-info">
-                            <strong>{{ lesson.lesson }} x{{ quantityOf(lesson) }}</strong>
-                            <span class="teacher">{{ lesson.subject }}</span>
+                    <p v-else-if="cartLessons.length === 0" class="message">Your cart is empty.</p>
+                    
+                    <div v-else>
+                        <h2>Your cart</h2>
+
+                        <div class="cart-item" v-for="lesson in cartLessons" :key="lesson._id">
+                            <div class="cart-info">
+                                <strong>{{ lesson.lesson }} x{{ quantityOf(lesson) }}</strong>
+                                <span class="teacher">{{ lesson.subject }}</span>
+                            </div>
+
+                            <span class="price">Rs {{ lesson.price * quantityOf(lesson) }}</span>
+
+                            <div class="cart-actions">
+                                <button class="icon-button" title="Remove one" @click="removeOne(lesson)">
+                                    <i class="bi bi-dash-lg"></i>
+                                </button>
+                                <button class="icon-button danger" title="Remove all" @click="removeAll(lesson)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
                         </div>
 
-                        <span class="price">Rs {{ lesson.price * quantityOf(lesson) }}</span>
+                        <div class="checkout-form">
+                            <input type="text" v-model="name" placeholder="Name (letters only)" />
+                            <input type="text" v-model="phone" placeholder="Phone number (numbers only)" />
 
-                        <div class="cart-actions">
-                            <button class="icon-button" title="Remove one" @click="removeOne(lesson)">
-                                <i class="bi bi-dash-lg"></i>
+                            <button class="add-button" :disabled="!canCheckout || submitting" @click="checkout">
+                                Checkout
                             </button>
-                            <button class="icon-button danger" title="Remove all" @click="removeAll(lesson)">
-                                <i class="bi bi-trash"></i>
-                            </button>
+
+                            <p v-if="checkoutError" class="error">{{ checkoutError }}</p>
                         </div>
                     </div>
                 </div>
