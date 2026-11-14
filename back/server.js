@@ -26,6 +26,19 @@ app.get("/lessons", async (req, res) => {
     res.json(lessons);
 });
 
+app.get("/search", async (req, res) => {
+    const query = req.query.q || "";
+    const lessons = await db.collection("lessons").find().toArray();
+
+    const matches = lessons.filter((lesson) =>
+        lesson.subject.toLowerCase().includes(query) ||
+        lesson.lesson.toLowerCase().includes(query) ||
+        lesson.teacher.toLowerCase().includes(query)
+    );
+
+    res.json(matches);
+});
+
 app.post("/orders", async (req, res) => {
     const { name, phone, lessons } = req.body;
 

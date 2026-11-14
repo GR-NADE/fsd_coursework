@@ -8,6 +8,8 @@ const app = Vue.createApp({
             error: "",
             sortBy: "subject",
             sortOrder: "asc",
+            searchText: "",
+            matchingIds: [],
             cart: [],
             showCart: false,
             name: "",
@@ -19,8 +21,16 @@ const app = Vue.createApp({
     },
 
     computed: {
+        visibleLessons() {
+            if (this.searchText === "")
+            {
+                return this.lessons;
+            }
+            return this.lessons.filter((lesson) => this.matchingIds.includes(lesson._id));
+        },
+
         sortedLessons() {
-            const sorted = [...this.lessons].sort((a, b) => {
+            const sorted = [...this.visibleLessons].sort((a, b) => {
                 const x = a[this.sortBy];
                 const y = b[this.sortBy];
 
@@ -53,6 +63,12 @@ const app = Vue.createApp({
         },
     },
 
+    watch: {
+        searchText() {
+            this.searchLessons();
+        },
+    },
+
     async mounted() {
         await this.fetchLessons();
     },
@@ -72,6 +88,19 @@ const app = Vue.createApp({
             }
             finally {
                 this.loading = false;
+            }
+        },
+
+        async searchLessons() {
+            try {
+                const query = encodeURIComponent(this.searchText);
+                const response = await fetch(`${API_URL}/search?q=${query}`);
+                const results = await response.json();
+                this.matchingIds = results.map((lesson) => lesson._id);
+            }
+            catch (err)
+            {
+                this.matchingIds = [];
             }
         },
 

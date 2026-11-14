@@ -245,3 +245,20 @@ main {
   color: #166534;
   border-radius: 10px;
 }
+
+.toolbar {
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 240px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}

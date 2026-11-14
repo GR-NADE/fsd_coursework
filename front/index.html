@@ -28,6 +28,10 @@
             <template v-else>
                 <div v-if="!showCart">
                     <div class="toolbar">
+                        <label class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" v-model="searchText" placeholder="Search by subject, lesson or teacher">
+                        </label>
                         <label>
                             Sort by
                             <select v-model="sortBy">
@@ -45,6 +49,8 @@
                             </select>
                         </label>
                     </div>
+
+                    <p v-if="sortedLessons.length === 0" class="message">No lessons found</p>
 
                     <div class="lesson-grid">
                         <div class="lesson-card" v-for="lesson in sortedLessons" :key="lesson._id">
