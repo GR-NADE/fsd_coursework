@@ -10,6 +10,7 @@ const app = Vue.createApp({
             sortOrder: "asc",
             searchText: "",
             matchingIds: [],
+            selectedTeacher: "",
             cart: [],
             showCart: false,
             name: "",
@@ -22,11 +23,23 @@ const app = Vue.createApp({
 
     computed: {
         visibleLessons() {
-            if (this.searchText === "")
+            let result = this.lessons;
+
+            if (this.searchText !== "")
             {
-                return this.lessons;
+                result = result.filter((lesson) => this.matchingIds.includes(lesson._id));
             }
-            return this.lessons.filter((lesson) => this.matchingIds.includes(lesson._id));
+
+            if (this.selectedTeacher !== "")
+            {
+                result = result.filter((lesson) => lesson.teacher === this.selectedTeacher);
+            }
+
+            return result;
+        },
+
+        teacherNames() {
+            return [...new Set(this.lessons.map((lesson) => lesson.teacher))];
         },
 
         sortedLessons() {

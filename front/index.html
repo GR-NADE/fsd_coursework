@@ -33,6 +33,13 @@
                             <input type="text" v-model="searchText" placeholder="Search by subject, lesson or teacher">
                         </label>
                         <label>
+                            Teacher
+                            <select v-model="selectedTeacher">
+                                <option value="">All teachers</option>
+                                <option v-for="teacher in teacherNames" :key="teacher" :value="teacher">{{ teacher }}</option>
+                            </select>
+                        </label>
+                        <label>
                             Sort by
                             <select v-model="sortBy">
                                 <option value="subject">Subject</option>
