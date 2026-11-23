@@ -77,16 +77,6 @@ main {
   gap: 8px;
 }
 
-.subject-tag {
-  align-self: flex-start;
-  background: #e0e7ff;
-  color: #3730a3;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-
 .lesson-card h2 {
   margin: 4px 0 0;
   font-size: 1.15rem;

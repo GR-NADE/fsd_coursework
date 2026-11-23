@@ -30,7 +30,7 @@
                     <div class="toolbar">
                         <label class="search-box">
                             <i class="bi bi-search"></i>
-                            <input type="text" v-model="searchText" placeholder="Search by subject, lesson or teacher">
+                            <input type="text" v-model="searchText" placeholder="Search by subject or teacher">
                         </label>
                         <label>
                             Teacher
@@ -43,7 +43,6 @@
                             Sort by
                             <select v-model="sortBy">
                                 <option value="subject">Subject</option>
-                                <option value="lesson">Lesson</option>
                                 <option value="price">Price</option>
                                 <option value="availability">Availability</option>
                             </select>
@@ -61,8 +60,7 @@
 
                     <div class="lesson-grid">
                         <div class="lesson-card" v-for="lesson in sortedLessons" :key="lesson._id">
-                            <span class="subject-tag">{{ lesson.subject }}</span>
-                            <h2>{{ lesson.lesson }}</h2>
+                            <h2>{{ lesson.subject }}</h2>
                             <p class="teacher">{{ lesson.teacher }}</p>
                             <div class="card-footer">
                                 <span class="price">Rs {{ lesson.price }}</span>
@@ -91,7 +89,7 @@
 
                         <div class="cart-item" v-for="lesson in cartLessons" :key="lesson._id">
                             <div class="cart-info">
-                                <strong>{{ lesson.lesson }} x{{ quantityOf(lesson) }}</strong>
+                                <strong>{{ lesson.subject }} x{{ quantityOf(lesson) }}</strong>
                                 <span class="teacher">{{ lesson.subject }}</span>
                             </div>
 

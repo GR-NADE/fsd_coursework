@@ -27,12 +27,11 @@ app.get("/lessons", async (req, res) => {
 });
 
 app.get("/search", async (req, res) => {
-    const query = req.query.q || "";
+    const query = (req.query.q || "").toLowerCase();
     const lessons = await db.collection("lessons").find().toArray();
 
     const matches = lessons.filter((lesson) =>
         lesson.subject.toLowerCase().includes(query) ||
-        lesson.lesson.toLowerCase().includes(query) ||
         lesson.teacher.toLowerCase().includes(query)
     );
 
@@ -64,7 +63,7 @@ app.put("/lessons/:id", async (req, res) => {
         return res.status(404).json({ error: "Lesson not found" });
     }
 
-    res.json({ message: "Lesson updated" })
+    res.json({ message: "Lesson updated" });
 });
 
 app.use((req, res) => {

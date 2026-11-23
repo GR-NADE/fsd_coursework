@@ -17,6 +17,6 @@ Content-Type: application/json
 PUT http://localhost:3000/lessons/6ad38095ab78aab9ab42aa72
 Content-Type: application/json
 
-{ "availability": 15 }
+{ "availability": 2 }
 
 GET http://localhost:3000/search?q=

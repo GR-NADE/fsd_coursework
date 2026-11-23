@@ -1,37 +1,31 @@
 import { connectDB, closeDB } from "./db.js";
 
-const teachers = [
-    { name: "Haardik Gautam", subject: "Full-stack Development", code: "CST3144" },
-    { name: "Jessen Aurmoogum", subject: "Strategic Information Systems", code: "CST3310" },
+const lessons = [
+    { subject: "Full-stack Development", teacher: "Haardik Gautam", location: "Mauritius", price: 180, availability: 5 },
+    { subject: "Database Systems", teacher: "Haardik Gautam", location: "Mauritius", price: 160, availability: 5 },
+    { subject: "Strategic Information Systems", teacher: "Jessen Aurmoogum", location: "Mauritius", price: 170, availability: 5 },
+    { subject: "Project Management", teacher: "Jessen Aurmoogum", location: "Mauritius", price: 150, availability: 5 },
+    { subject: "French for Beginners", teacher: "Amara Okafor", location: "Nigeria", price: 140, availability: 5 },
+    { subject: "World History", teacher: "Amara Okafor", location: "Nigeria", price: 140, availability: 5 },
+    { subject: "Statistics", teacher: "Priya Ramgoolam", location: "UK", price: 150, availability: 5 },
+    { subject: "Biology", teacher: "Priya Ramgoolam", location: "UK", price: 160, availability: 5 },
+    { subject: "Creative Writing", teacher: "Oliver Bennett", location: "UK", price: 120, availability: 5 },
+    { subject: "Digital Photography", teacher: "Oliver Bennett", location: "UK", price: 125, availability: 5 },
 ];
 
-const weekPrices = [
-    {week: 1, price: 115},
-    {week: 2, price: 125},
-    {week: 3, price: 140},
-    {week: 4, price: 160},
-    {week: 5, price: 180},
-    {week: 6, price: 200},
-];
+const teacherNames = [...new Set(lessons.map((lesson) => lesson.teacher))];
 
-const lessons = teachers.flatMap(({ name, subject, code }) =>
-    weekPrices.map(({ week, price }) => ({
-        subject,
-        lesson: `${code} Week ${week} Lab`,
-        price,
-        availability: 5,
-        teacher: name,
-    }))
-);
+const teachers = teacherNames.map((name) => ({
+    name,
+    lessons: lessons.filter((lesson) => lesson.teacher === name).map((lesson) => lesson.subject),
+}));
 
 const db = await connectDB();
 
 await db.collection("teachers").deleteMany({});
 await db.collection("lessons").deleteMany({});
 
-await db.collection("teachers").insertMany(
-    teachers.map(({ name, subject }) => ({ name, subject }))
-);
+await db.collection("teachers").insertMany(teachers);
 await db.collection("lessons").insertMany(lessons);
 
 console.log(`Seeded ${teachers.length} teachers and ${lessons.length} lessons`);
