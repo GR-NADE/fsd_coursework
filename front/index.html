@@ -60,15 +60,18 @@
 
                     <div class="lesson-grid">
                         <div class="lesson-card" v-for="lesson in sortedLessons" :key="lesson._id">
-                            <h2>{{ lesson.subject }}</h2>
-                            <p class="teacher">{{ lesson.teacher }}</p>
-                            <div class="card-footer">
-                                <span class="price">Rs {{ lesson.price }}</span>
-                                <span class="availability">{{ lesson.availability }} spaces left</span>
+                            <img class="card-image" :src="imageUrl(lesson)" :alt="lesson.subject">
+                            <div class="card-content">
+                                <h2>{{ lesson.subject }}</h2>
+                                <p class="teacher">{{ lesson.teacher }}</p>
+                                <div class="card-footer">
+                                    <span class="price">Rs {{ lesson.price }}</span>
+                                    <span class="availability">{{ lesson.availability }} spaces left</span>
+                                </div>
+                                <button class="add-button" :disabled="lesson.availability === 0" @click="addToCart(lesson)">
+                                    {{ lesson.availability === 0 ? "Sold out" : "Add to cart" }}
+                                </button>
                             </div>
-                            <button class="add-button" :disabled="lesson.availability === 0" @click="addToCart(lesson)">
-                                {{ lesson.availability === 0 ? "Sold out" : "Add to cart" }}
-                            </button>
                         </div>
                     </div>
                 </div>

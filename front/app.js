@@ -104,6 +104,10 @@ const app = Vue.createApp({
             }
         },
 
+        imageUrl(lesson) {
+            return `${API_URL}/images/${lesson.image}`;
+        },
+
         async searchLessons() {
             try {
                 const query = encodeURIComponent(this.searchText);

@@ -16,6 +16,10 @@ app.use((req, res, next) => {
 
 app.use(cors());
 app.use(express.json());
+app.use("/images", express.static("images"));
+app.use("/images", (req, res) => {
+    res.status(404).json({ error: "Image not found" });
+});
 
 app.get("/", (req, res) => {
     res.send("Lessons API is running");
