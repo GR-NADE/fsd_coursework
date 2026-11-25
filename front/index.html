@@ -43,6 +43,7 @@
                             Sort by
                             <select v-model="sortBy">
                                 <option value="subject">Subject</option>
+                                <option value="location">Location</option>
                                 <option value="price">Price</option>
                                 <option value="availability">Availability</option>
                             </select>
@@ -64,6 +65,10 @@
                             <div class="card-content">
                                 <h2>{{ lesson.subject }}</h2>
                                 <p class="teacher">{{ lesson.teacher }}</p>
+                                <p class="location">
+                                    <i class="bi bi-geo-alt"></i>
+                                    {{ lesson.location }}
+                                </p>
                                 <div class="card-footer">
                                     <span class="price">Rs {{ lesson.price }}</span>
                                     <span class="availability">{{ lesson.availability }} spaces left</span>
@@ -93,7 +98,7 @@
                         <div class="cart-item" v-for="lesson in cartLessons" :key="lesson._id">
                             <div class="cart-info">
                                 <strong>{{ lesson.subject }} x{{ quantityOf(lesson) }}</strong>
-                                <span class="teacher">{{ lesson.subject }}</span>
+                                <span>{{ lesson.teacher }}</span>
                             </div>
 
                             <span class="price">Rs {{ lesson.price * quantityOf(lesson) }}</span>
